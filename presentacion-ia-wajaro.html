@@ -1,0 +1,688 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Sesión teórica de 55 minutos para que el equipo de la Fundación Wájaro explore qué ventajas y límites podría tener la IA, sin dar por hecho que la adoptaremos.">
+  <meta name="color-scheme" content="light">
+  <title>Exploremos juntos la IA · Fundación Wájaro</title>
+  <style>
+    :root {
+      --paper: #f7f3e9; --ink: #292c29; --muted: #66695f; --rust: #a13926;
+      --rust-light: #f5e2d9; --green: #294e42; --green-light: #e5ece3;
+      --gold: #e7b851; --line: #d9d6ca; --white: #fffdf8;
+    }
+    * { box-sizing: border-box; }
+    body { margin: 0; background: #e8e5dc; color: var(--ink); font-family: "Segoe UI", Arial, sans-serif; }
+    button, a { -webkit-tap-highlight-color: transparent; }
+    button { font: inherit; cursor: pointer; }
+    button:disabled { opacity: .4; cursor: default; }
+    a { color: var(--rust); text-underline-offset: .18em; }
+    a:hover { text-decoration-thickness: 2px; }
+    :focus-visible { outline: 3px solid var(--rust); outline-offset: 4px; }
+    [hidden] { display: none !important; }
+    .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; border: 0; }
+    .skip { position: fixed; left: 16px; top: -80px; z-index: 10; background: white; padding: 12px; }
+    .skip:focus { top: 10px; }
+    .topbar { height: 66px; padding: 0 28px; display: flex; align-items: center; justify-content: space-between; gap: 20px; }
+    .brand { font: italic 30px Georgia, serif; letter-spacing: -1.5px; color: var(--rust); white-space: nowrap; }
+    .toolbar { display: flex; gap: 6px; }
+    .toolbar button, .nav-button, .close-button { border: 1px solid #c8c8bb; background: transparent; border-radius: 7px; padding: 8px 12px; font-size: 13px; color: var(--ink); }
+    .toolbar button:hover, .nav-button:hover, .close-button:hover { background: var(--white); }
+    .toolbar button[aria-expanded="true"] { background: var(--green); color: white; }
+    main { display: grid; justify-items: center; padding: 0 24px; }
+    .stage { width: min(calc(100vw - 48px), calc((100dvh - 152px) * 16 / 9), 1600px); aspect-ratio: 16 / 9; container-type: inline-size; box-shadow: 0 10px 35px #292c2912; }
+    .slide { position: relative; width: 100%; height: 100%; padding: 3.5cqw 5cqw 3cqw; background: var(--paper); display: flex; flex-direction: column; gap: 1.55cqw; font-size: 1.65cqw; line-height: 1.45; overflow-wrap: break-word; }
+    .slide[hidden] { display: none; }
+    .slide::after { content: ""; position: absolute; bottom: 0; left: 0; width: 5cqw; height: .38cqw; background: var(--rust); }
+    .slide.dark { background: var(--green); color: var(--paper); }
+    .slide.rust { background: var(--rust); color: var(--paper); }
+    .slide.dark::after, .slide.rust::after { background: var(--gold); }
+    .eyebrow { margin: 0; font-size: 1cqw; font-weight: 700; letter-spacing: .18em; text-transform: uppercase; color: var(--rust); display: flex; align-items: center; gap: 1cqw; }
+    .eyebrow::before { content: ""; width: 2.7cqw; height: 2px; background: currentColor; }
+    .dark .eyebrow, .rust .eyebrow { color: var(--gold); }
+    h1, h2, h3, p { margin: 0; }
+    h1, h2 { font-family: Georgia, "Times New Roman", serif; font-weight: 400; line-height: 1.07; letter-spacing: -.035em; }
+    h1 { font-size: 7.4cqw; }
+    h2 { font-size: 4.2cqw; max-width: 96%; }
+    h3 { font-size: 1.8cqw; line-height: 1.25; font-weight: 650; margin-bottom: .65cqw; }
+    h1 em, h2 em { color: var(--rust); font-weight: 400; }
+    .dark h1 em, .dark h2 em, .rust h2 em { color: var(--gold); }
+    .lead { font-size: 2cqw; line-height: 1.4; max-width: 78cqw; }
+    .subtle { color: var(--muted); }
+    .dark .subtle, .rust .subtle { color: #e0e6da; }
+    .small { font-size: 1.25cqw; line-height: 1.45; }
+    .micro { font-size: 1cqw; line-height: 1.45; }
+    .body-fill { flex: 1; }
+    .grid.body-fill, .route.body-fill, .formula.body-fill { align-content: center; }
+    .bottom-line { margin-top: auto; padding-top: 1cqw; border-top: 1px solid var(--line); font-size: 1.25cqw; }
+    .dark .bottom-line, .rust .bottom-line { border-color: #ffffff40; }
+    .grid { display: grid; gap: 1.5cqw; }
+    .two { grid-template-columns: 1fr 1fr; }
+    .three { grid-template-columns: repeat(3, 1fr); }
+    .four { grid-template-columns: repeat(4, 1fr); }
+    .split { grid-template-columns: 1.05fr 1fr; align-items: center; }
+    .card { padding: 1.8cqw; border: 1px solid var(--line); border-radius: .7cqw; background: var(--white); }
+    .card.green { background: var(--green-light); border-color: #b8c9bb; }
+    .card.rose { background: var(--rust-light); border-color: #d4a69b; }
+    .card.gold { background: #f5e9c9; border-color: #d7bb76; }
+    .dark .card { background: #ffffff0b; border-color: #ffffff38; }
+    .number { display: block; color: var(--rust); font-family: Georgia, serif; font-size: 3.7cqw; line-height: 1; margin-bottom: 1.2cqw; }
+    .dark .number { color: var(--gold); }
+    .tag { display: inline-block; font-size: 1cqw; font-weight: 700; letter-spacing: .07em; text-transform: uppercase; border: 1px solid currentColor; border-radius: 100px; padding: .3cqw .75cqw; width: fit-content; }
+    .tag.fiction { color: var(--rust); background: var(--rust-light); }
+    ul, ol { padding-left: 1.25em; margin: .4cqw 0 0; }
+    li + li { margin-top: .55cqw; }
+    .clean { list-style: none; padding-left: 0; }
+    .clean li { padding-left: 1.6cqw; position: relative; }
+    .clean li::before { content: "—"; position: absolute; left: 0; color: var(--rust); }
+    .dark .clean li::before { color: var(--gold); }
+    .callout { padding: 1.2cqw 1.6cqw; border-left: .35cqw solid var(--rust); background: var(--rust-light); }
+    .dark .callout { border-color: var(--gold); background: #ffffff0b; }
+    .quote { font: 3.2cqw/1.25 Georgia, serif; }
+    .cover { justify-content: center; gap: 2.3cqw; }
+    .cover .grid { align-items: center; grid-template-columns: 1.4fr 1fr; gap: 1.6cqw; }
+    .cover .lead { max-width: 49cqw; font-size: 1.8cqw; margin-top: 2cqw; }
+    .cover-art { width: 100%; color: var(--green); }
+    .cover .bottom-line { margin-top: 1.6cqw; display: flex; justify-content: space-between; gap: 1cqw; }
+    .cover h1 { max-width: 60cqw; }
+    .route { display: grid; grid-template-columns: 1fr 1fr; gap: 1.1cqw; }
+    .route .card { display: grid; grid-template-columns: 4cqw 1fr auto; align-items: center; gap: .8cqw; padding: 1.3cqw 1.6cqw; }
+    .route .number { font-size: 3cqw; margin: 0; }
+    .route h3 { margin: 0; }
+    .route .time { font-size: 1.15cqw; color: var(--muted); white-space: nowrap; }
+    .prompt { font-family: "Segoe UI", Arial, sans-serif; font-size: 1.4cqw; line-height: 1.5; white-space: pre-wrap; margin: 0; }
+    .prompt-box { position: relative; background: var(--white); border: 1px solid var(--line); border-radius: .7cqw; padding: 1.5cqw; }
+    .prompt-box .copy { margin-top: 1cqw; }
+    .copy, .action { font-size: 1.1cqw; background: var(--green); color: white; border: none; padding: .6cqw 1cqw; border-radius: .35cqw; }
+    .copy:hover, .action:hover { background: #193a30; }
+    .dark .action { background: var(--gold); color: var(--ink); }
+    .formula { display: grid; grid-template-columns: repeat(5, 1fr); gap: .8cqw; }
+    .formula .card { padding: 1.3cqw 1.1cqw; }
+    .formula h3 { font-size: 1.6cqw; }
+    .formula p { font-size: 1.25cqw; }
+    .formula .number { font-size: 2.7cqw; }
+    .workshop { display: grid; grid-template-columns: 1fr 1.1fr; gap: 1.5cqw; }
+    .workshop h3 { font-size: 1.6cqw; }
+    .workshop .prompt { font-size: 1.22cqw; }
+    .workshop .card { padding: 1.3cqw; }
+    .timer-box { display: flex; align-items: center; gap: .8cqw; margin-top: 1cqw; flex-wrap: wrap; }
+    .timer-box output { font: 2.7cqw/1 Georgia, serif; font-variant-numeric: tabular-nums; min-width: 7cqw; }
+    .timer-box button { border: 1px solid var(--green); background: transparent; color: var(--green); border-radius: .35cqw; padding: .45cqw .7cqw; font-size: 1.05cqw; }
+    .answer { padding: 1.5cqw; border-left: .35cqw solid var(--green); background: var(--green-light); }
+    .answer p + p { margin-top: .8cqw; }
+    details { border: 1px solid var(--line); border-radius: .5cqw; padding: 1cqw 1.2cqw; background: var(--white); }
+    summary { cursor: pointer; font-weight: 600; }
+    details p { margin-top: .7cqw; }
+    .tool-row { display: grid; grid-template-columns: 1.05fr 1.05fr 1.35fr; border-bottom: 1px solid var(--line); padding: 1cqw 0; gap: 1.5cqw; font-size: 1.4cqw; }
+    .tool-row.head { font-size: 1cqw; font-weight: 700; text-transform: uppercase; letter-spacing: .12em; color: var(--muted); }
+    .steps { counter-reset: step; list-style: none; padding: 0; }
+    .steps li { counter-increment: step; padding: .8cqw 0 .8cqw 4cqw; position: relative; border-bottom: 1px solid var(--line); }
+    .steps li::before { content: counter(step, decimal-leading-zero); position: absolute; left: 0; color: var(--rust); font: 2.3cqw Georgia, serif; }
+    .flow { display: flex; align-items: stretch; gap: .8cqw; }
+    .flow .card { flex: 1; padding: 1.3cqw; }
+    .flow .arrow { align-self: center; color: var(--rust); font-size: 2.2cqw; }
+    .flow .card h3 { font-size: 1.45cqw; }
+    .flow .card p { font-size: 1.2cqw; }
+    .tokens { display: flex; flex-wrap: wrap; gap: .4cqw; align-items: center; }
+    .tokens span { font: 2.2cqw/1 Georgia, serif; padding: .6cqw .8cqw; border-radius: .4cqw; background: var(--white); border: 1px solid var(--line); white-space: pre; }
+    .tokens span:nth-child(odd) { background: #f5e9c9; border-color: #d7bb76; }
+    .tokens .count { font: 1.25cqw "Segoe UI", Arial, sans-serif; background: none; border: none; color: var(--muted); padding-left: 1cqw; }
+    .checklist { list-style: none; padding-left: 0; }
+    .checklist li { display: flex; gap: .8cqw; align-items: baseline; }
+    .checklist li::before { content: "✓"; color: var(--green); font-weight: bold; }
+    .dark .checklist li::before { color: var(--gold); }
+    .source-list { font-size: 1.17cqw; display: grid; gap: 1.6cqw; align-content: start; }
+    .source-list a { font-weight: 650; }
+    .source-list p { margin-top: .3cqw; color: var(--muted); }
+    .end-word { font: 8.5cqw/.95 Georgia, serif; letter-spacing: -.05em; }
+    .end-word em { color: var(--gold); }
+    .footer { width: min(100%, 1600px); margin: 0 auto; height: 78px; display: flex; align-items: center; justify-content: space-between; gap: 20px; padding: 0 28px; }
+    .footer-info { font-size: 12px; color: var(--muted); line-height: 1.65; }
+    .footer-info strong { color: var(--ink); font-weight: 650; }
+    .footer-nav { display: flex; align-items: center; gap: 12px; }
+    .nav-button { min-width: 44px; font-size: 18px; padding: 6px 12px; }
+    #slide-count { font-size: 13px; font-variant-numeric: tabular-nums; min-width: 55px; text-align: center; }
+    .progress { position: fixed; bottom: 0; width: 100%; height: 4px; background: #d8d5c9; }
+    .progress div { height: 100%; width: 0; background: var(--rust); transition: width .2s ease; }
+    #notes-panel { width: min(100% - 48px, 1100px); margin: 0 auto 24px; border-radius: 8px; padding: 24px; background: var(--white); border: 1px solid var(--line); font-size: 16px; line-height: 1.6; }
+    #notes-panel h2 { font: 23px Georgia, serif; margin-bottom: 12px; }
+    #notes-panel p + p { margin-top: 10px; }
+    #notes-panel .note-warning { font-size: 13px; color: var(--rust); margin-bottom: 12px; }
+    .speaker-notes { display: none; }
+    dialog { border: 1px solid var(--line); border-radius: 12px; width: min(850px, 92vw); max-height: 86dvh; background: var(--paper); color: var(--ink); padding: 26px; }
+    dialog::backdrop { background: #132b24b8; }
+    .dialog-top { display: flex; justify-content: space-between; align-items: center; gap: 20px; margin-bottom: 20px; }
+    dialog h2 { font: 30px Georgia, serif; }
+    #index-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+    #index-grid button { text-align: left; border: 1px solid var(--line); background: var(--white); color: var(--ink); padding: 12px; border-radius: 6px; display: flex; gap: 12px; align-items: baseline; font-size: 14px; }
+    #index-grid button span { color: var(--rust); font-variant-numeric: tabular-nums; }
+    #index-grid button[aria-current="step"] { background: var(--green); color: white; }
+    #index-grid button[aria-current="step"] span { color: var(--gold); }
+    #help-dialog p, #help-dialog li { font-size: 16px; line-height: 1.6; }
+    #help-dialog li + li { margin-top: 8px; }
+    kbd { font: 12px "Segoe UI", Arial, sans-serif; border: 1px solid #b7bcaf; padding: 2px 6px; border-radius: 4px; white-space: nowrap; }
+    #toast { position: fixed; bottom: 85px; left: 50%; transform: translateX(-50%); z-index: 20; background: var(--ink); color: white; padding: 12px 20px; border-radius: 8px; max-width: min(90vw, 650px); font-size: 14px; }
+    noscript p { margin: 12px; padding: 14px; background: white; }
+    body.no-js .stage { aspect-ratio: auto; }
+    body.no-js .slide { min-height: 56.25cqw; height: auto; margin-bottom: 24px; }
+    body.no-js .toolbar, body.no-js .footer, body.no-js .progress { display: none; }
+    @media (prefers-reduced-motion: reduce) { *, *::before, *::after { transition: none !important; } }
+    @media screen and (max-width: 700px), screen and (max-height: 480px) {
+      .topbar { height: auto; min-height: 64px; padding: 12px 16px; gap: 12px; flex-wrap: wrap; }
+      .toolbar { flex-wrap: wrap; }
+      .toolbar button { font-size: 12px; padding: 7px 8px; }
+      main { padding: 0 12px; }
+      .stage { width: 100%; aspect-ratio: auto; }
+      .slide { height: auto; min-height: 72dvh; padding: 28px 22px; font-size: 17px; gap: 22px; }
+      .slide::after { width: 50px; height: 4px; }
+      .eyebrow { font-size: 10px; gap: 10px; }
+      .eyebrow::before { width: 24px; }
+      h1 { font-size: clamp(48px, 12vw, 72px); }
+      h2 { font-size: 36px; max-width: 100%; }
+      h3, .workshop h3, .formula h3, .flow .card h3 { font-size: 20px; margin-bottom: 8px; }
+      .lead, .cover .lead { font-size: 19px; max-width: none; }
+      .small, .prompt, .workshop .prompt, .tool-row, .flow .card p, .source-list { font-size: 15px; }
+      .micro, .tag, .route .time, .formula p, .bottom-line { font-size: 13px; }
+      .grid, .route, .formula, .workshop { gap: 14px; }
+      .two, .three, .four, .split, .cover .grid, .route, .formula, .workshop { grid-template-columns: 1fr; }
+      .card, .workshop .card, .formula .card, .flow .card, .prompt-box, .answer { padding: 18px; border-radius: 8px; }
+      .cover h1 { max-width: none; }
+      .cover .lead { margin-top: 18px; }
+      .cover-art { max-height: 240px; }
+      .cover .bottom-line { margin-top: 12px; flex-wrap: wrap; }
+      .bottom-line { padding-top: 15px; }
+      .number, .formula .number { font-size: 38px; margin-bottom: 14px; }
+      .route .card { grid-template-columns: 40px 1fr auto; gap: 8px; padding: 16px; }
+      .route .number { font-size: 32px; }
+      .tag { padding: 4px 9px; }
+      li + li { margin-top: 8px; }
+      .clean li { padding-left: 21px; }
+      .callout { padding: 16px; border-left-width: 4px; }
+      .quote { font-size: 29px; }
+      .copy, .action { font-size: 14px; padding: 9px 14px; border-radius: 5px; }
+      .prompt-box .copy { margin-top: 14px; }
+      .timer-box { gap: 10px; margin-top: 16px; }
+      .timer-box output { font-size: 36px; min-width: 90px; }
+      .timer-box button { font-size: 14px; padding: 8px; }
+      .answer p + p { margin-top: 12px; }
+      details { padding: 14px; }
+      details p { margin-top: 10px; }
+      .tool-row { grid-template-columns: 1fr; gap: 6px; padding: 16px 0; }
+      .tool-row.head { display: none; }
+      .steps li { padding: 12px 0 12px 42px; }
+      .steps li::before { font-size: 27px; }
+      .flow { flex-direction: column; gap: 10px; }
+      .flow .arrow { transform: rotate(90deg); font-size: 24px; }
+      .tokens { gap: 5px; }
+      .tokens span { font-size: 20px; padding: 6px 8px; }
+      .tokens .count { font-size: 13px; }
+      .checklist li { gap: 10px; }
+      .source-list { gap: 18px; }
+      .source-list p { margin-top: 5px; }
+      .end-word { font-size: clamp(54px, 14vw, 80px); }
+      .footer { height: auto; min-height: 80px; padding: 14px 16px; gap: 12px; }
+      .footer-info { font-size: 11px; }
+      .footer-nav { gap: 5px; }
+      #notes-panel { width: calc(100% - 24px); padding: 20px; }
+      #index-grid { grid-template-columns: 1fr; }
+    }
+    @page { size: 13.333in 7.5in; margin: 0; }
+    @media print {
+      html, body { margin: 0; background: white; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+      .topbar, .footer, .progress, #notes-panel, dialog, #toast, .skip, noscript, .copy, .action, .timer-box button { display: none !important; }
+      main { display: block; padding: 0; }
+      .stage { display: block; width: 13.333in; aspect-ratio: auto; box-shadow: none; }
+      .slide, .slide[hidden] { display: flex !important; width: 13.333in; height: 7.5in; margin: 0; break-after: page; break-inside: avoid; }
+      .slide:last-child { break-after: auto; }
+      a { color: inherit; }
+      details > :not(summary) { display: block !important; }
+      .slide::before { content: attr(data-print); position: absolute; right: 5cqw; bottom: 1.2cqw; font: .85cqw "Segoe UI", sans-serif; color: inherit; }
+    }
+  </style>
+</head>
+<body class="no-js">
+  <a href="#deck" class="skip">Ir a la presentación</a>
+  <header class="topbar">
+    <span class="brand" aria-label="Fundación Wájaro">Wájaro</span>
+    <nav class="toolbar" aria-label="Herramientas de presentación">
+      <button id="index-button" type="button" title="Índice (I)">Índice</button>
+      <button id="notes-button" type="button" aria-expanded="false" aria-controls="notes-panel" title="Notas (N)">Notas</button>
+      <button id="fullscreen-button" type="button" title="Pantalla completa (F)">Pantalla completa</button>
+      <button id="print-button" type="button" title="Imprimir o guardar como PDF">PDF / imprimir</button>
+      <button id="help-button" type="button" title="Ayuda (?)" aria-label="Ayuda de la presentación">?</button>
+    </nav>
+  </header>
+  <noscript><p>JavaScript está desactivado. Puedes leer todas las diapositivas desplazándote por la página e imprimirlas con el navegador.</p></noscript>
+  <main id="deck" tabindex="-1" aria-label="Presentación: Exploremos juntos la IA">
+    <div class="stage">
+      <section class="slide cover" id="s1" data-title="Exploremos juntos la IA" data-block="Apertura" data-minutes="1" aria-labelledby="title-1">
+        <p class="eyebrow">Sesión teórica · Fundación Wájaro</p>
+        <div class="grid body-fill">
+          <div>
+            <h1 id="title-1">Exploremos<br>juntos la <em>IA.</em></h1>
+            <p class="lead">¿Qué podría aportarnos?<br>¿Qué límites tendría?<br>El cuidado de las personas, siempre primero.</p>
+          </div>
+          <svg class="cover-art" viewBox="0 0 400 390" role="img" aria-label="Tres círculos conectados: preguntar, verificar y cuidar">
+            <path d="M64 335 C0 215 350 265 311 96 C279 -18 101 47 133 153 C160 242 359 187 338 331" fill="none" stroke="#a13926" stroke-width="3"/>
+            <path d="M34 309 C137 364 286 337 361 370" fill="none" stroke="#d3c7ad" stroke-width="2"/>
+            <circle cx="130" cy="106" r="77" fill="#e7b851"/>
+            <circle cx="280" cy="218" r="87" fill="#294e42"/>
+            <circle cx="115" cy="313" r="64" fill="#f5e2d9" stroke="#a13926" stroke-width="1.5"/>
+            <text x="130" y="113" text-anchor="middle" fill="#292c29" font-family="Georgia, serif" font-size="22">Preguntar</text>
+            <text x="280" y="225" text-anchor="middle" fill="#f7f3e9" font-family="Georgia, serif" font-size="24">Verificar</text>
+            <text x="115" y="320" text-anchor="middle" fill="#a13926" font-family="Georgia, serif" font-size="22">Cuidar</text>
+            <circle cx="323" cy="49" r="7" fill="#a13926"/><circle cx="29" cy="203" r="5" fill="#294e42"/>
+          </svg>
+        </div>
+        <div class="bottom-line">        <span>55 minutos · Exploración teórica · Sin decisiones tomadas</span></div>
+                <aside class="speaker-notes"><p><strong>Abre con esta idea:</strong> Wájaro aún no ha decidido si usará IA. Hoy exploramos cómo funciona, qué ventajas podría traer a nuestro trabajo y qué límites habría que mantener si la usáramos. Nada de esto reemplaza el acompañamiento. No se exige experiencia previa.</p><p>La información institucional procede de las páginas públicas de Wájaro. La secuencia se inspira en el temario público de La Silla Vacía, adaptado a una sesión teórica breve.</p></aside>
+      </section>
+
+      <section class="slide" id="s2" data-title="La ruta de hoy" data-block="Apertura" data-minutes="2" aria-labelledby="title-2">
+        <p class="eyebrow">Agenda</p>
+        <h2 id="title-2">No adoptar herramientas.<br><em>Explorar posibilidades.</em></h2>
+        <div class="route body-fill">
+          <div class="card"><span class="number">01</span><div><h3>Entender y cuidar</h3><p class="small">Qué es, dónde podría ayudar, qué proteger.</p></div><span class="time">10 min</span></div>
+          <div class="card"><span class="number">02</span><div><h3>Pedir y verificar</h3><p class="small">Encargos claros, fuentes comprobadas.</p></div><span class="time">9 min</span></div>
+          <div class="card"><span class="number">03</span><div><h3>Escribir y organizar</h3><p class="small">Voz, herramientas, planes, asistentes.</p></div><span class="time">13 min</span></div>
+          <div class="card"><span class="number">04</span><div><h3>Ampliar con cuidado</h3><p class="small">Conectores, agentes, flujo y privacidad.</p></div><span class="time">13 min</span></div>
+        </div>
+        <p class="bottom-line">Apertura 5 min · Bloques 45 min · Cierre 5 min</p>
+        <aside class="speaker-notes"><p>El objetivo no es convencer, sino tener elementos para opinar si conviene usar la IA en Wájaro y para qué.</p><p>Al finalizar, cada persona debería poder: explicar una limitación de la IA; estructurar un encargo con contexto; saber cómo verificar una afirmación; e identificar qué información no debe compartirse.</p></aside>
+      </section>
+
+      <section class="slide dark" id="s3" data-title="Empezar por nuestra misión" data-block="Apertura" data-minutes="2" aria-labelledby="title-3">
+        <p class="eyebrow">Antes de hablar de herramientas</p>
+        <h2 id="title-3">¿En qué parte de nuestro trabajo<br>podría <em>aportar algo la IA?</em></h2>
+        <p class="lead body-fill">Si la usáramos, sería para servir al acompañamiento. Nunca para reemplazarlo.</p>
+        <p class="bottom-line">Exploramos tareas repetitivas, nunca decisiones sobre personas.</p>
+        <aside class="speaker-notes"><p>Pide al grupo dos o tres ejemplos concretos de su semana y pregunta si creen que la IA podría ayudar en ellos o no. Ambas respuestas son válidas; se retoman en «Dónde podría ayudarnos».</p><p>La misión se toma del sitio público de Wájaro (acompañamiento comunitario, alianzas, iniciativas económicas, formación e investigación). No afirmamos que la fundación use hoy IA.</p></aside>
+      </section>
+
+      <section class="slide" id="s4" data-title="Qué es la IA y por qué inventa" data-block="01 · Entender y cuidar" data-minutes="4" aria-labelledby="title-4">
+        <p class="eyebrow">01 / Qué es la IA</p>
+        <h2 id="title-4">Predice lo probable.<br><em>No sabe lo verdadero.</em></h2>
+        <div class="grid two body-fill">
+          <div class="card green"><h3>Qué hace</h3><p>Genera texto, imágenes o audio a partir de patrones y del contexto que le damos.</p></div>
+          <div class="card rose"><h3>Qué puede fallar</h3><ul class="clean"><li>Inventa cifras, fuentes o acuerdos.</li><li>Reproduce prejuicios.</li><li>Suena seguro aunque se equivoque.</li></ul></div>
+        </div>
+        <div class="callout"><strong>“No sé”</strong> es mejor que un dato inventado.</div>
+        <aside class="speaker-notes"><p>Analogía: un colaborador muy rápido que conoce muchos patrones de escritura, pero al que hay que dar un encargo claro y revisar. No es una persona ni una autoridad sobre la comunidad.</p><p>ChatGPT, Claude y Gemini son aplicaciones; dentro cambian modelos y herramientas. Un chat no siempre consulta fuentes. El contexto es limitado y no equivale a memoria.</p><p>Pregunta: si aparece una convocatoria con enlace, ¿ya podemos usarla? No: hay que abrir la fuente oficial. Un buen encargo reduce las alucinaciones, pero no las elimina.</p></aside>
+      </section>
+
+      <section class="slide" id="s5" data-title="Dónde podría ayudarnos" data-block="01 · Entender y cuidar" data-minutes="3" aria-labelledby="title-5">
+        <p class="eyebrow">01 / Posibles ventajas</p>
+        <h2 id="title-5">Podría ayudar con <em>borradores.</em><br>Nunca con la responsabilidad.</h2>
+        <div class="grid two body-fill">
+          <div class="card"><h3>Comunicaciones</h3><p class="small">¿Adaptar textos ya aprobados?</p></div>
+          <div class="card"><h3>Convocatorias</h3><p class="small">¿Extraer requisitos de bases oficiales?</p></div>
+          <div class="card"><h3>Talleres</h3><p class="small">¿Proponer agendas y preguntas?</p></div>
+          <div class="card"><h3>Informes</h3><p class="small">¿Ordenar avances y pendientes?</p></div>
+        </div>
+        <p class="bottom-line"><strong>Aun si la usáramos, no delegaríamos:</strong> ayudas, evaluación de personas, protección ni representación comunitaria.</p>
+        <aside class="speaker-notes"><p>Conecta con los ejemplos del inicio. Son hipótesis, no promesas: habría que probarlas para saber si realmente aportan o si revisar el resultado cuesta más que hacerlo directamente. Siempre verificar montos, fechas y cifras en la fuente, y validar talleres según el contexto local. Nunca inventar testimonios ni prometer resultados.</p><p>Para sumar un presupuesto basta una hoja de cálculo con fórmulas comprobadas.</p></aside>
+      </section>
+
+      <section class="slide" id="s6" data-title="El semáforo de la información" data-block="01 · Entender y cuidar" data-minutes="3" aria-labelledby="title-6">
+        <p class="eyebrow">01 / Qué proteger</p>
+        <h2 id="title-6">Antes de subir algo:<br><em>¿a quién podría exponer?</em></h2>
+        <div class="grid three body-fill">
+          <div class="card green"><span class="tag">Usar</span><h3 style="margin-top:1cqw">Público o genérico</h3><p class="small">Convocatorias públicas, plantillas vacías.</p></div>
+          <div class="card gold"><span class="tag">Consultar</span><h3 style="margin-top:1cqw">Interno</h3><p class="small">Borradores, presupuestos, acuerdos.</p></div>
+          <div class="card rose"><span class="tag">No subir</span><h3 style="margin-top:1cqw">Personal o sensible</h3><p class="small">Testimonios, menores, salud, ubicaciones.</p></div>
+        </div>
+        <p class="bottom-line"><strong>Quitar un nombre no basta:</strong> comunidad + cargo + fecha identifican.</p>
+        <aside class="speaker-notes"><p>Esta clasificación orienta decisiones cotidianas y no sustituye una política de tratamiento de datos. Lo amarillo requiere autorización y herramienta aprobada.</p><p>Los datos públicos también pueden ser personales y estar protegidos. Ante duda, detenerse y consultar a la persona responsable.</p></aside>
+      </section>
+
+      <section class="slide" id="s7" data-title="La receta de un buen encargo" data-block="02 · Pedir y verificar" data-minutes="3" aria-labelledby="title-7">
+        <p class="eyebrow">02 / Cómo pedir</p>
+        <h2 id="title-7">No hay palabras mágicas.<br>Hay <em>buen contexto.</em></h2>
+        <div class="formula body-fill">
+          <div class="card"><span class="number">01</span><h3>Tarea</h3><p>¿Qué necesito?</p></div>
+          <div class="card"><span class="number">02</span><h3>Contexto</h3><p>¿Para quién? ¿Con qué material?</p></div>
+          <div class="card"><span class="number">03</span><h3>Límites</h3><p>¿Qué no debe inventar?</p></div>
+          <div class="card"><span class="number">04</span><h3>Formato</h3><p>¿Tabla, correo, lista?</p></div>
+          <div class="card green"><span class="number">05</span><h3>Revisión</h3><p>¿Cómo sabré si sirve?</p></div>
+        </div>
+        <p class="bottom-line">Encargar → leer → corregir → verificar.</p>
+        <aside class="speaker-notes"><p>Frase útil: “Si falta información, señálala. Distingue hechos de propuestas. No supongas”.</p><p>“Actúa como experto” orienta el estilo, pero no otorga conocimiento verificado. Ante una respuesta fallida, corrige con precisión: “añadiste una fecha que no está en la minuta; elimínala”.</p></aside>
+      </section>
+
+      <section class="slide" id="s8" data-title="De una petición vaga a una útil" data-block="02 · Pedir y verificar" data-minutes="3" aria-labelledby="title-8">
+        <p class="eyebrow">02 / Ejemplo</p>
+        <h2 id="title-8">De “hazme un informe”<br>a <em>un encargo verificable.</em></h2>
+        <div class="grid split body-fill">
+          <div class="card rose"><span class="tag">Demasiado abierto</span><p class="quote" style="margin-top:1.2cqw">“Haz un informe de impacto del taller”.</p></div>
+          <div class="prompt-box">          <p class="prompt">Con la minuta de reunión adjunta, redacta un borrador para el equipo de coordinación:
+3 hechos, tabla de pendientes y 2 preguntas abiertas.
+Usa solo la minuta. No inventes fechas, responsables ni impacto.
+Si falta un dato, escribe “por confirmar”.</p></div>
+        </div>
+        <p class="bottom-line">El resultado siempre es un borrador para revisar.</p>
+        <aside class="speaker-notes"><p>El primer encargo no tiene material, público ni definición de “impacto”: invita a inventar. El segundo incorpora tarea, contexto, límites, formato y criterio de revisión.</p><p>No convertir propuestas en compromisos ni interpretar la asistencia como evidencia de impacto.</p></aside>
+      </section>
+
+      <section class="slide" id="s9" data-title="Verificar antes de usar" data-block="02 · Pedir y verificar" data-minutes="3" aria-labelledby="title-9">
+        <p class="eyebrow">02 / Cómo verificar</p>
+        <h2 id="title-9">Un enlace<br><em>no es una verificación.</em></h2>
+        <div class="grid two body-fill">
+          <ol class="steps"><li><strong>Abre</strong> la fuente original.</li><li><strong>Ubica</strong> el dato exacto.</li><li><strong>Comprueba</strong> fecha y vigencia.</li><li><strong>Contrasta</strong> lo clave.</li></ol>
+          <div class="card green"><h3>Regla simple</h3><p class="small">Si no se puede confirmar, se marca <strong>“no verificada”</strong>.</p><p class="small" style="margin-top:1.2cqw">Dos chatbots que coinciden no son dos fuentes.</p></div>
+        </div>
+        <aside class="speaker-notes"><p>Ejemplo: pide una tabla de convocatorias con entidad, requisitos, fecha de cierre, enlace oficial y respaldo. Evita pedir “dame fuentes que confirmen mi idea”.</p><p>Con bases oficiales autorizadas puedes pedir “responde solo con este documento”. Para una cifra crucial, vuelve a la tabla original y recalcula.</p></aside>
+      </section>
+
+      <section class="slide" id="s10" data-title="Nuestra voz e imágenes" data-block="03 · Escribir y organizar" data-minutes="3" aria-labelledby="title-10">
+        <p class="eyebrow">03 / Nuestra voz</p>
+        <h2 id="title-10">Podría editar e ilustrar.<br>Nunca <em>hablar por las comunidades.</em></h2>
+        <div class="grid two body-fill">
+          <div class="card green"><ul class="clean"><li>Mejorar claridad sin añadir hechos.</li><li>Ilustraciones genéricas para afiches.</li><li>Borradores de traducción, para validar.</li></ul></div>
+          <div class="card rose"><ul class="clean"><li>Testimonios o citas inventadas.</li><li>Imágenes que parezcan fotos reales.</li><li>Símbolos culturales sin validación.</li></ul></div>
+        </div>
+        <p class="bottom-line">Imagen generada = ilustración, nunca evidencia.</p>
+        <aside class="speaker-notes"><p>Pedido útil: “Mejora claridad sin añadir hechos. Señala expresiones paternalistas”. Para imágenes: “Ilustración plana, colores cálidos, sin personas reconocibles”.</p><p>Los modelos de imagen tienden a reproducir estereotipos sobre pueblos indígenas; cualquier representación Misak, Wayúu u otra debe validarse con las comunidades. En lenguas con menos recursos, las traducciones requieren hablantes competentes.</p></aside>
+      </section>
+
+      <section class="slide" id="s11" data-title="Elegir por tarea, no por moda" data-block="03 · Escribir y organizar" data-minutes="2" aria-labelledby="title-11">
+        <p class="eyebrow">03 / Herramientas</p>
+        <h2 id="title-11">Elegir por tarea,<br><em>no por moda.</em></h2>
+        <div class="body-fill">
+          <div class="tool-row head"><span>Necesidad</span><span>Opciones</span><span>Qué comprobar</span></div>
+          <div class="tool-row"><strong>Borradores</strong><span>ChatGPT · Claude · Gemini</span><span>Datos permitidos.</span></div>
+          <div class="tool-row"><strong>Información actual</strong><span>Búsqueda web · Perplexity</span><span>Fuente y fecha.</span></div>
+          <div class="tool-row"><strong>Documentos propios</strong><span>NotebookLM</span><span>Citas exactas.</span></div>
+          <div class="tool-row"><strong>Cifras</strong><span>Hoja de cálculo</span><span>Fórmulas y totales.</span></div>
+        </div>
+        <p class="bottom-line">Una herramienta bien conocida rinde más que cinco usadas a medias.</p>
+        <aside class="speaker-notes"><p>No se comparan precios ni versiones porque cambian rápido. La documentación de NotebookLM redirige a Gemini Notebook.</p></aside>
+      </section>
+
+      <section class="slide" id="s12" data-title="Tokens: cómo lee la IA" data-block="03 · Escribir y organizar" data-minutes="3" aria-labelledby="title-12">
+        <p class="eyebrow">03 / Tokens</p>
+        <h2 id="title-12">La IA no cuenta palabras.<br>Cuenta <em>tokens.</em></h2>
+        <div class="tokens" aria-label="Ejemplo ilustrativo: la frase Acompañamos comunidades dividida en cinco tokens"><span>Acomp</span><span>añ</span><span>amos</span><span> comun</span><span>idades</span><span class="count">2 palabras ≈ 5 tokens</span></div>
+        <div class="grid three">
+          <div class="card"><h3>Contexto</h3><p class="small">Si se llena, olvida el inicio.</p></div>
+          <div class="card"><h3>Límites</h3><p class="small">Textos largos agotan el plan.</p></div>
+          <div class="card"><h3>Costo</h3><p class="small">Se paga por token.</p></div>
+        </div>
+        <div class="callout small"><strong>Rendir más:</strong> un chat por tema · solo el fragmento necesario · respuestas cortas · resumir y seguir en un chat nuevo.</div>
+        <aside class="speaker-notes"><p>Un token es un fragmento de texto. La división es ilustrativa: cada modelo corta a su manera. En español, una palabra ≈ 1,3–2 tokens. Imágenes y archivos también consumen tokens.</p><p>Más consejos: usar el modelo rápido para lo simple y guardar instrucciones en un proyecto o asistente en lugar de repetirlas.</p></aside>
+      </section>
+
+      <section class="slide" id="s13" data-title="Planes y suscripciones" data-block="03 · Escribir y organizar" data-minutes="2" aria-labelledby="title-13">
+        <p class="eyebrow">03 / Planes</p>
+        <h2 id="title-13">El plan depende<br><em>de los datos que usas.</em></h2>
+        <div class="body-fill">
+          <div class="tool-row head"><span>Plan</span><span>Para qué</span><span>Ojo con</span></div>
+          <div class="tool-row"><strong>Gratis</strong><span>Probar con información pública.</span><span>Puede entrenar con tus datos.</span></div>
+          <div class="tool-row"><strong>Individual <span class="micro subtle">≈ US$20/mes</span></strong><span>Uso frecuente.</span><span>Cuenta personal: la fundación no la controla.</span></div>
+          <div class="tool-row"><strong>Equipo</strong><span>Información interna.</span><span>Administración central.</span></div>
+        </div>
+        <div class="callout small"><strong>Para ONG:</strong> Google, OpenAI, Anthropic, Microsoft y Canva tienen programas gratuitos o con descuento.</div>
+        <aside class="speaker-notes"><p>Referencias a noviembre de 2026 (verificar en Colombia): Google Workspace for Nonprofits incluye Gemini y NotebookLM sin costo; ChatGPT Business para ONG ≈ US$8 por usuario/mes; Claude Team con precio similar; Canva Pro gratis para ONG; Microsoft incluye Copilot Chat en sus donaciones.</p><p>Antes de pagar, decidir si de verdad la necesitamos y definir tareas y datos. Pagar no cambia el semáforo.</p></aside>
+      </section>
+
+      <section class="slide" id="s14" data-title="Chat, proyecto y asistente" data-block="03 · Escribir y organizar" data-minutes="3" aria-labelledby="title-14">
+        <p class="eyebrow">03 / Organizar el trabajo</p>
+        <h2 id="title-14">De empezar de cero<br>a <em>reutilizar con criterio.</em></h2>
+        <div class="flow">
+          <div class="card"><h3>Chat</h3><p>Tarea puntual.</p></div>
+          <span class="arrow" aria-hidden="true">→</span>
+          <div class="card"><h3>Proyecto</h3><p>Chats y archivos de una iniciativa.</p></div>
+          <span class="arrow" aria-hidden="true">→</span>
+          <div class="card green"><h3>Asistente</h3><p>Encargo estable reutilizable (Gem, GPT).</p></div>
+        </div>
+        <div class="card rose"><h3>Antes de compartir un asistente, intenta que falle</h3><ul class="clean"><li>Sin fecha → ¿la inventa?</li><li>Sin cifras → ¿exagera resultados?</li><li>Pide un testimonio → ¿lo fabrica?</li></ul></div>
+        <p class="bottom-line">Si falla, corrige sus instrucciones y vuelve a probar.</p>
+        <aside class="speaker-notes"><p>Proyecto organiza el contexto de una iniciativa; asistente reutiliza un comportamiento. Ninguno tiene memoria perfecta ni aprende solo. Antes de compartir, verificar quién verá chats, archivos e instrucciones.</p><p>Si falla una prueba, corrige las instrucciones y repite en un chat nuevo. Todo asistente debe tener responsable, fecha y versión.</p></aside>
+      </section>
+
+      <section class="slide" id="s15" data-title="Conectores y agentes" data-block="04 · Ampliar con cuidado" data-minutes="5" aria-labelledby="title-15">
+        <p class="eyebrow">04 / Conectar y actuar</p>
+        <h2 id="title-15">Más capacidad,<br><em>más permisos y más riesgo.</em></h2>
+        <div class="grid three body-fill">
+          <div class="card"><span class="tag">Skill</span><h3 style="margin-top:1cqw">Repite un proceso</h3><p class="small">Ej.: aplicar una plantilla de informe.</p></div>
+          <div class="card gold"><span class="tag">Conector · MCP</span><h3 style="margin-top:1cqw">Usa otras apps</h3><p class="small">Ej.: crear una invitación en Canva.</p></div>
+          <div class="card rose"><span class="tag">Agente</span><h3 style="margin-top:1cqw">Hace clic por ti</h3><p class="small">Ej.: navegar y llenar formularios.</p></div>
+        </div>
+        <div class="callout small"><strong>Riesgo:</strong> una web o documento puede esconder instrucciones para el agente.</div>
+        <p class="bottom-line">Mínimo permiso · supervisar · aprobar antes de enviar, pagar, publicar o borrar.</p>
+        <aside class="speaker-notes"><p>MCP (Model Context Protocol) es un estándar abierto para conectar asistentes con otras aplicaciones. Canva ofrece un servidor MCP oficial: la IA busca la plantilla, crea el diseño y devuelve el enlace; la persona revisa antes de publicar. Un conector hereda los permisos de tu cuenta.</p><p>Agentes: modo agente de ChatGPT, Claude en Chrome, funciones similares en Copilot y Gemini. Usar un perfil separado sin datos sensibles. Buen primer uso: tareas de solo lectura, como reunir convocatorias públicas en una tabla.</p><p>No todo requiere IA: para una regla fija basta una automatización simple.</p></aside>
+      </section>
+
+      <section class="slide" id="s16" data-title="Un flujo con revisión humana" data-block="04 · Ampliar con cuidado" data-minutes="3" aria-labelledby="title-16">
+        <p class="eyebrow">04 / El flujo</p>
+        <h2 id="title-16">Si la usáramos:<br><em>siempre con revisión humana.</em></h2>
+        <div class="flow">
+          <div class="card"><span class="tag">Persona</span><h3 style="margin-top:1cqw">Preparar</h3><p>Material permitido.</p></div>
+          <span class="arrow" aria-hidden="true">→</span>
+          <div class="card gold"><span class="tag">IA</span><h3 style="margin-top:1cqw">Proponer</h3><p>Borrador y faltantes.</p></div>
+          <span class="arrow" aria-hidden="true">→</span>
+          <div class="card green"><span class="tag">Persona</span><h3 style="margin-top:1cqw">Verificar</h3><p>Hechos, cifras, voz.</p></div>
+          <span class="arrow" aria-hidden="true">→</span>
+          <div class="card"><span class="tag">Responsable</span><h3 style="margin-top:1cqw">Aprobar</h3><p>Decide y archiva.</p></div>
+        </div>
+        <p class="bottom-line">Si no se puede comprobar, se devuelve.</p>
+        <aside class="speaker-notes"><p>Registrar fuente, plantilla, cambios clave y revisor. Quien revisa una cifra y quien aprueba el tono pueden ser personas distintas. Si un texto representa a una comunidad, seguir el proceso de validación acordado con ella.</p><p>No conservar copias innecesarias de información sensible.</p></aside>
+      </section>
+
+      <section class="slide" id="s17" data-title="La privacidad no es un interruptor" data-block="04 · Ampliar con cuidado" data-minutes="3" aria-labelledby="title-17">
+        <p class="eyebrow">04 / Privacidad</p>
+        <h2 id="title-17">“No entrenar con mis datos”<br>no significa <em>“no guardar nada”.</em></h2>
+        <div class="grid two body-fill">
+          <div class="card"><h3>Antes de usar una cuenta</h3><ul class="checklist small"><li>Herramienta y plan autorizados.</li><li>Quién ve chats y archivos.</li><li>Memoria y conectores activos.</li></ul></div>
+          <div class="card rose"><h3>Si se subió algo por error</h3><ol class="small"><li>Detener y no compartir.</li><li>Avisar al responsable.</li><li>Restringir y eliminar.</li></ol></div>
+        </div>
+        <aside class="speaker-notes"><p>Historial, memoria, entrenamiento y retención son controles distintos. En ChatGPT, desactivar el uso para mejorar modelos no elimina los chats. No extrapolar garantías de un plan empresarial a una cuenta personal.</p><p>La fundación debe designar a quién reportar incidentes y definir herramientas, datos y permisos.</p></aside>
+      </section>
+
+      <section class="slide dark" id="s18" data-title="La tarjeta para llevar" data-block="04 · Ampliar con cuidado" data-minutes="2" aria-labelledby="title-18">
+        <p class="eyebrow">Para llevar</p>
+        <h2 id="title-18">Cinco preguntas<br>si decidimos <em>usar la IA.</em></h2>
+        <div class="grid two body-fill">
+          <div><span class="number">Al pedir</span><ul class="checklist"><li>¿La IA aporta algo real en esta tarea?</li><li>¿Puedo usar estos datos aquí?</li><li>¿Di contexto, límites y formato?</li></ul></div>
+          <div><span class="number">Al compartir</span><ul class="checklist"><li>¿Cada hecho tiene respaldo?</li><li>¿Una persona revisó y aprobó?</li></ul></div>
+        </div>
+        <p class="bottom-line">Si alguna respuesta es “no”, aún no está listo.</p>
+        <aside class="speaker-notes"><p>Invita a tomar una foto de esta tarjeta o guardar el PDF como referencia rápida.</p></aside>
+      </section>
+
+      <section class="slide dark" id="s19" data-title="Decidir juntos, con criterio" data-block="Cierre y preguntas" data-minutes="5" aria-labelledby="title-19">
+        <p class="eyebrow">Cierre</p>
+        <h2 id="title-19" class="end-word">Decidir juntos.<br><em>Con criterio.</em></h2>
+        <p class="lead body-fill">La IA podría preparar parte del trabajo.<br>La confianza se construye entre personas.</p>
+        <div class="callout"><strong>Para conversar:</strong> ¿en qué tarea vemos una ventaja real? ¿Qué nos preocupa?</div>
+        <aside class="speaker-notes"><p>Retoma las tareas mencionadas al inicio. Recoge ventajas y preocupaciones del grupo como insumo para decidir si Wájaro usa la IA y cómo; no hace falta llegar hoy a una conclusión. La siguiente diapositiva es material de consulta y no suma tiempo.</p></aside>
+      </section>
+
+      <section class="slide" id="s20" data-title="Fuentes" data-block="Anexo · Consulta" data-minutes="0" aria-labelledby="title-20">
+        <p class="eyebrow">Anexo · Consulta: 20 de noviembre de 2026</p>
+        <h2 id="title-20">Fuentes.</h2>
+        <div class="grid two body-fill">
+          <div class="source-list">
+            <div><a href="https://espanol.wajaro.org/" target="_blank" rel="noopener noreferrer">[1] Wájaro · Misión y visión</a></div>
+            <div><a href="https://espanol.wajaro.org/nuestros-proyectos-2/" target="_blank" rel="noopener noreferrer">[2] Wájaro · Proyectos</a></div>
+            <div><a href="https://help.openai.com/en/articles/10169521-projects-in-chatgpt" target="_blank" rel="noopener noreferrer">[3] OpenAI · Proyectos en ChatGPT</a></div>
+            <div><a href="https://support.google.com/gemini/answer/15235603?hl=es" target="_blank" rel="noopener noreferrer">[4] Google · Crear Gems</a></div>
+            <div><a href="https://support.google.com/notebooklm/answer/16164461?hl=es" target="_blank" rel="noopener noreferrer">[5] Google · NotebookLM / Gemini Notebook</a></div>
+          </div>
+          <div class="source-list">
+            <div><a href="https://support.claude.com/en/articles/12512176-what-are-skills" target="_blank" rel="noopener noreferrer">[6] Anthropic · Qué son las skills</a></div>
+            <div><a href="https://help.openai.com/en/articles/7730893-data-controls-in-chatgpt" target="_blank" rel="noopener noreferrer">[7] OpenAI · Controles de datos</a></div>
+            <div><a href="https://support.google.com/gemini/answer/13594961?hl=es" target="_blank" rel="noopener noreferrer">[8] Google · Privacidad de Gemini</a></div>
+            <div><a href="https://www.canva.dev/docs/apps/mcp/" target="_blank" rel="noopener noreferrer">[9] Canva · Servidor MCP</a></div>
+          </div>
+        </div>
+        <p class="bottom-line"><strong>Inspiración pedagógica:</strong> <a href="https://www.lasillavacia.com/como-sacarle-el-jugo-a-la-ia-del-chatbot-a-las-gemas/" target="_blank" rel="noopener noreferrer">La Silla Vacía · “Cómo sacarle el jugo a la IA: del chatbot a las gemas”</a>.</p>
+        <aside class="speaker-notes"><p>La presentación diferencia contexto institucional, capacidades de herramientas y recomendaciones propuestas. No presenta el semáforo ni la voz editorial como políticas oficiales de Wájaro.</p><p>Uso: ← / → para navegar, N notas, I índice, F pantalla completa. Para PDF, activar gráficos de fondo y quitar encabezados.</p></aside>
+      </section>
+
+    </div>
+  </main>
+  <footer class="footer">
+    <div class="footer-info"><strong id="block-label">Apertura</strong><br><span id="timing-label">1 min · minuto 0–1 de 55</span></div>
+    <nav class="footer-nav" aria-label="Navegación de diapositivas">
+      <button type="button" class="nav-button" id="prev" aria-label="Diapositiva anterior">←</button>
+      <span id="slide-count">01 / 20</span>
+      <button type="button" class="nav-button" id="next" aria-label="Diapositiva siguiente">→</button>
+    </nav>
+  </footer>
+  <aside id="notes-panel" hidden aria-labelledby="notes-title">
+    <h2 id="notes-title">Notas para facilitar</h2>
+    <p class="note-warning">Estas notas son visibles para quienes estén viendo esta pantalla.</p>
+    <div id="notes-content"></div>
+  </aside>
+  <div class="progress" role="progressbar" aria-label="Avance de la presentación" aria-valuemin="1" aria-valuemax="20" aria-valuenow="1"><div id="progress-fill"></div></div>
+  <div class="sr-only" id="announcement" aria-live="polite" aria-atomic="true"></div>
+  <div id="toast" role="status" aria-live="polite" hidden></div>
+  <dialog id="index-dialog" aria-labelledby="index-title">
+    <div class="dialog-top"><h2 id="index-title">La ruta completa</h2><button type="button" class="close-button" data-close="index-dialog">Cerrar</button></div>
+    <div id="index-grid"></div>
+  </dialog>
+  <dialog id="help-dialog" aria-labelledby="help-title">
+    <div class="dialog-top"><h2 id="help-title">Cómo usar la presentación</h2><button type="button" class="close-button" data-close="help-dialog">Cerrar</button></div>
+    <ul>
+      <li><kbd>←</kbd> / <kbd>→</kbd> o <kbd>Re Pág</kbd> / <kbd>Av Pág</kbd>: anterior / siguiente.</li>
+      <li><kbd>Inicio</kbd> / <kbd>Fin</kbd>: primera / última diapositiva.</li>
+      <li><kbd>N</kbd>: notas de facilitación, visibles en esta misma pantalla.</li>
+      <li><kbd>I</kbd>: índice · <kbd>F</kbd>: pantalla completa · <kbd>Esc</kbd>: cerrar un diálogo.</li>
+      <li><strong>PDF / imprimir:</strong> todas las diapositivas, sin las notas. Elegir guardar como PDF; desactivar encabezados y pies, y activar gráficos de fondo.</li>
+      <li>La presentación funciona sin internet. Solo abrir enlaces externos requiere conexión.</li>
+    </ul>
+  </dialog>
+  <script>
+    (() => {
+      "use strict";
+      const slides = Array.from(document.querySelectorAll(".slide"));
+      const byId = (id) => document.getElementById(id);
+      const totalMinutes = slides.reduce((sum, slide) => sum + Number(slide.dataset.minutes), 0);
+      const indexDialog = byId("index-dialog");
+      const helpDialog = byId("help-dialog");
+      const notesPanel = byId("notes-panel");
+      const indexButtons = [];
+      let current = 0;
+      let toastTimeout;
+
+      function notify(message) {
+        byId("toast").textContent = message;
+        byId("toast").hidden = false;
+        clearTimeout(toastTimeout);
+        toastTimeout = setTimeout(() => { byId("toast").hidden = true; }, 6500);
+      }
+
+      function updateNotes() {
+        byId("notes-content").replaceChildren(...Array.from(slides[current].querySelector(".speaker-notes").children, (node) => node.cloneNode(true)));
+        byId("notes-title").textContent = `${current + 1}. ${slides[current].dataset.title}`;
+      }
+
+      function render(index, updateHash = true, announce = true) {
+        current = Math.min(Math.max(index, 0), slides.length - 1);
+        const focusedInSlide = slides.some((slide) => slide.contains(document.activeElement));
+        slides.forEach((slide, number) => { slide.hidden = number !== current; });
+        if (focusedInSlide) byId("deck").focus({ preventScroll: true });
+        const slide = slides[current];
+        const duration = Number(slide.dataset.minutes);
+        const start = slides.slice(0, current).reduce((sum, item) => sum + Number(item.dataset.minutes), 0);
+        byId("slide-count").textContent = `${String(current + 1).padStart(2, "0")} / ${slides.length}`;
+        byId("block-label").textContent = slide.dataset.block;
+        byId("timing-label").textContent = duration ? `${duration} min · minuto ${start}–${start + duration} de ${totalMinutes}` : `Material de consulta · fuera de los ${totalMinutes} minutos`;
+        byId("prev").disabled = current === 0;
+        byId("next").disabled = current === slides.length - 1;
+        byId("progress-fill").style.width = `${(current + 1) / slides.length * 100}%`;
+        document.querySelector(".progress").setAttribute("aria-valuenow", String(current + 1));
+        indexButtons.forEach((button, number) => {
+          if (number === current) button.setAttribute("aria-current", "step");
+          else button.removeAttribute("aria-current");
+        });
+        updateNotes();
+        if (updateHash && location.hash !== `#${slide.id}`) location.hash = slide.id;
+        if (announce) byId("announcement").textContent = `Diapositiva ${current + 1} de ${slides.length}: ${slide.dataset.title}`;
+      }
+
+      function fromHash() {
+        const index = slides.findIndex((slide) => `#${slide.id}` === location.hash);
+        render(index < 0 ? 0 : index, false, false);
+      }
+
+      function move(offset) {
+        render(current + offset);
+        window.scrollTo({ top: 0, behavior: "instant" });
+      }
+
+      slides.forEach((slide, number) => {
+        slide.dataset.print = `${String(number + 1).padStart(2, "0")} / ${slides.length} · Wájaro · IA con criterio`;
+        const button = document.createElement("button");
+        button.type = "button";
+        const label = document.createElement("span");
+        label.textContent = String(number + 1).padStart(2, "0");
+        button.append(label, document.createTextNode(slide.dataset.title));
+        button.addEventListener("click", () => {
+          indexDialog.close();
+          render(number);
+          window.scrollTo({ top: 0, behavior: "instant" });
+        });
+        indexButtons.push(button);
+        byId("index-grid").append(button);
+      });
+
+      function toggleNotes() {
+        notesPanel.hidden = !notesPanel.hidden;
+        byId("notes-button").setAttribute("aria-expanded", String(!notesPanel.hidden));
+        if (!notesPanel.hidden) notesPanel.scrollIntoView({ block: "nearest" });
+      }
+
+      async function toggleFullscreen() {
+        try {
+          if (document.fullscreenElement) await document.exitFullscreen();
+          else if (document.documentElement.requestFullscreen) await document.documentElement.requestFullscreen();
+          else notify("Este navegador no permite pantalla completa aquí. Usa la opción de pantalla completa del navegador.");
+        } catch (error) {
+          console.error("No se pudo cambiar a pantalla completa:", error);
+          notify("El navegador bloqueó la pantalla completa. Puedes usar su menú o F11.");
+        }
+      }
+
+      byId("prev").addEventListener("click", () => move(-1));
+      byId("next").addEventListener("click", () => move(1));
+      byId("notes-button").addEventListener("click", toggleNotes);
+      byId("index-button").addEventListener("click", () => indexDialog.showModal());
+      byId("help-button").addEventListener("click", () => helpDialog.showModal());
+      byId("fullscreen-button").addEventListener("click", toggleFullscreen);
+      byId("print-button").addEventListener("click", () => window.print());
+      document.querySelectorAll("[data-close]").forEach((button) => {
+        button.addEventListener("click", () => byId(button.dataset.close).close());
+      });
+      document.addEventListener("fullscreenchange", () => {
+        byId("fullscreen-button").textContent = document.fullscreenElement ? "Salir de pantalla completa" : "Pantalla completa";
+      });
+      window.addEventListener("hashchange", fromHash);
+      document.addEventListener("keydown", (event) => {
+        if (event.altKey || event.ctrlKey || event.metaKey || event.target.closest("input, textarea, select, [contenteditable]")) return;
+        const key = event.key.toLowerCase();
+        if (indexDialog.open || helpDialog.open) {
+          if (key === "escape") {
+            event.preventDefault();
+            if (indexDialog.open) indexDialog.close();
+            if (helpDialog.open) helpDialog.close();
+          }
+          return;
+        }
+        if (event.target.closest("button, a, summary") && (key === " " || key === "enter")) return;
+        if (["arrowright", "pagedown", " "].includes(key)) { event.preventDefault(); move(1); }
+        else if (["arrowleft", "pageup"].includes(key)) { event.preventDefault(); move(-1); }
+        else if (key === "home") { event.preventDefault(); render(0); }
+        else if (key === "end") { event.preventDefault(); render(slides.length - 1); }
+        else if (key === "n") { event.preventDefault(); toggleNotes(); }
+        else if (key === "i") { event.preventDefault(); indexDialog.showModal(); }
+        else if (key === "f") { event.preventDefault(); toggleFullscreen(); }
+        else if (key === "?") { event.preventDefault(); helpDialog.showModal(); }
+      });
+      document.body.classList.remove("no-js");
+      fromHash();
+    })();
+  </script>
+</body>
+</html>
