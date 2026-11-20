@@ -2,9 +2,12 @@
 
 Presentación interactiva en formato HTML autocontenido diseñada para una sesión teórica de **55 minutos** con el equipo de la **Fundación Wájaro**. Su propósito es explorar qué ventajas, límites y riesgos podría tener la inteligencia artificial en el trabajo cotidiano, sin dar por hecho su adopción.
 
+**Ver presentación en línea:** https://luisdapreci.github.io/IAWajaro/
+
 ## Contenido del repositorio
 
 - [`presentacion-ia-wajaro.html`](./presentacion-ia-wajaro.html): presentación completa en un único archivo HTML (sin dependencias externas ni necesidad de servidor).
+- [`index.html`](./index.html): punto de entrada para GitHub Pages que redirige automáticamente a la presentación.
 
 ## Estructura de la sesión
 
