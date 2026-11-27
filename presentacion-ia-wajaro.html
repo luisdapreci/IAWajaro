@@ -227,6 +227,17 @@
       #notes-panel { width: calc(100% - 24px); padding: 20px; }
       #index-grid { grid-template-columns: 1fr; }
     }
+    html[data-slide-tone="dark"] { --fs-bg: var(--green); }
+    html[data-slide-tone="rust"] { --fs-bg: var(--rust); }
+    html:fullscreen::backdrop { background: var(--fs-bg, #f7f3e9); }
+    html:fullscreen, html:fullscreen body, html.is-fullscreen, html.is-fullscreen body { margin: 0; width: 100%; height: 100%; background: var(--fs-bg, var(--paper)); overflow: hidden; }
+    html:fullscreen .topbar, html:fullscreen .footer, html:fullscreen .progress, html:fullscreen #notes-panel, html:fullscreen .skip,
+    html.is-fullscreen .topbar, html.is-fullscreen .footer, html.is-fullscreen .progress, html.is-fullscreen #notes-panel, html.is-fullscreen .skip { display: none !important; }
+    html:fullscreen main, html.is-fullscreen main { width: 100vw; height: 100vh; padding: 0; place-items: center; }
+    html:fullscreen main:focus, html.is-fullscreen main:focus { outline: none; }
+    html:fullscreen .stage, html.is-fullscreen .stage { width: min(100vw, calc(100vh * 16 / 9)); height: 100vh; max-width: none; aspect-ratio: auto; box-shadow: none; }
+    html:fullscreen .slide, html.is-fullscreen .slide { height: 100%; min-height: 0; }
+    html:fullscreen .slide::after, html.is-fullscreen .slide::after { display: none; }
     @page { size: 13.333in 7.5in; margin: 0; }
     @media print {
       html, body { margin: 0; background: white; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
@@ -279,9 +290,24 @@
                 <aside class="speaker-notes"><p><strong>Abre con esta idea:</strong> Wájaro aún no ha decidido si usará IA. Hoy exploramos cómo funciona, qué ventajas podría traer a nuestro trabajo y qué límites habría que mantener si la usáramos. Nada de esto reemplaza el acompañamiento. No se exige experiencia previa.</p><p>La información institucional procede de las páginas públicas de Wájaro. La secuencia se inspira en el temario público de La Silla Vacía, adaptado a una sesión teórica breve.</p></aside>
       </section>
 
-      <section class="slide" id="s2" data-title="La ruta de hoy" data-block="Apertura" data-minutes="2" aria-labelledby="title-2">
+      <section class="slide" id="s2" data-title="Glosario breve" data-block="Apertura" data-minutes="1" aria-labelledby="title-2">
+        <p class="eyebrow">Glosario breve</p>
+        <h2 id="title-2">Seis palabras clave<br>para <em>empezar con claridad.</em></h2>
+        <div class="grid three body-fill">
+          <div class="card"><h3>IA generativa</h3><p class="small">Sistema que crea texto, imágenes o audio a partir de patrones; no piensa ni verifica.</p></div>
+          <div class="card"><h3>Prompt (encargo)</h3><p class="small">Instrucción y contexto que le damos a la IA para pedirle una tarea.</p></div>
+          <div class="card"><h3>Alucinación</h3><p class="small">Dato, cifra o fuente que la IA inventa, aunque suene completamente segura.</p></div>
+          <div class="card"><h3>Token</h3><p class="small">Fragmento de texto con el que la IA lee, mide sus límites y calcula costos.</p></div>
+          <div class="card"><h3>Asistente (GPT · Gem)</h3><p class="small">Configuración guardada con instrucciones fijas para repetir una tarea.</p></div>
+          <div class="card"><h3>Conector (MCP) y agente</h3><p class="small">Permisos para que la IA use otras apps o actúe por ti; requieren supervisión.</p></div>
+        </div>
+        <p class="bottom-line">No hace falta memorizarlos: los veremos con ejemplos paso a paso.</p>
+        <aside class="speaker-notes"><p>Presenta este glosario como un mapa rápido para que ninguna palabra técnica bloquee la conversación. No hace falta definir cada término a fondo aquí: todos reaparecen más adelante con ejemplos concretos.</p><p>Recuerda al grupo que podrán consultar esta diapositiva después en el PDF.</p></aside>
+      </section>
+
+      <section class="slide" id="s3" data-title="La ruta de hoy" data-block="Apertura" data-minutes="1" aria-labelledby="title-3">
         <p class="eyebrow">Agenda</p>
-        <h2 id="title-2">No adoptar herramientas.<br><em>Explorar posibilidades.</em></h2>
+        <h2 id="title-3">No adoptar herramientas.<br><em>Explorar posibilidades.</em></h2>
         <div class="route body-fill">
           <div class="card"><span class="number">01</span><div><h3>Entender y cuidar</h3><p class="small">Qué es, dónde podría ayudar, qué proteger.</p></div><span class="time">10 min</span></div>
           <div class="card"><span class="number">02</span><div><h3>Pedir y verificar</h3><p class="small">Encargos claros, fuentes comprobadas.</p></div><span class="time">9 min</span></div>
@@ -292,17 +318,17 @@
         <aside class="speaker-notes"><p>El objetivo no es convencer, sino tener elementos para opinar si conviene usar la IA en Wájaro y para qué.</p><p>Al finalizar, cada persona debería poder: explicar una limitación de la IA; estructurar un encargo con contexto; saber cómo verificar una afirmación; e identificar qué información no debe compartirse.</p></aside>
       </section>
 
-      <section class="slide dark" id="s3" data-title="Empezar por nuestra misión" data-block="Apertura" data-minutes="2" aria-labelledby="title-3">
+      <section class="slide dark" id="s4" data-title="Empezar por nuestra misión" data-block="Apertura" data-minutes="2" aria-labelledby="title-4">
         <p class="eyebrow">Antes de hablar de herramientas</p>
-        <h2 id="title-3">¿En qué parte de nuestro trabajo<br>podría <em>aportar algo la IA?</em></h2>
+        <h2 id="title-4">¿En qué parte de nuestro trabajo<br>podría <em>aportar algo la IA?</em></h2>
         <p class="lead body-fill">Si la usáramos, sería para servir al acompañamiento. Nunca para reemplazarlo.</p>
         <p class="bottom-line">Exploramos tareas repetitivas, nunca decisiones sobre personas.</p>
         <aside class="speaker-notes"><p>Pide al grupo dos o tres ejemplos concretos de su semana y pregunta si creen que la IA podría ayudar en ellos o no. Ambas respuestas son válidas; se retoman en «Dónde podría ayudarnos».</p><p>La misión se toma del sitio público de Wájaro (acompañamiento comunitario, alianzas, iniciativas económicas, formación e investigación). No afirmamos que la fundación use hoy IA.</p></aside>
       </section>
 
-      <section class="slide" id="s4" data-title="Qué es la IA y por qué inventa" data-block="01 · Entender y cuidar" data-minutes="4" aria-labelledby="title-4">
+      <section class="slide" id="s5" data-title="Qué es la IA y por qué inventa" data-block="01 · Entender y cuidar" data-minutes="4" aria-labelledby="title-5">
         <p class="eyebrow">01 / Qué es la IA</p>
-        <h2 id="title-4">Predice lo probable.<br><em>No sabe lo verdadero.</em></h2>
+        <h2 id="title-5">Predice lo probable.<br><em>No sabe lo verdadero.</em></h2>
         <div class="grid two body-fill">
           <div class="card green"><h3>Qué hace</h3><p>Genera texto, imágenes o audio a partir de patrones y del contexto que le damos.</p></div>
           <div class="card rose"><h3>Qué puede fallar</h3><ul class="clean"><li>Inventa cifras, fuentes o acuerdos.</li><li>Reproduce prejuicios.</li><li>Suena seguro aunque se equivoque.</li></ul></div>
@@ -311,9 +337,9 @@
         <aside class="speaker-notes"><p>Analogía: un colaborador muy rápido que conoce muchos patrones de escritura, pero al que hay que dar un encargo claro y revisar. No es una persona ni una autoridad sobre la comunidad.</p><p>ChatGPT, Claude y Gemini son aplicaciones; dentro cambian modelos y herramientas. Un chat no siempre consulta fuentes. El contexto es limitado y no equivale a memoria.</p><p>Pregunta: si aparece una convocatoria con enlace, ¿ya podemos usarla? No: hay que abrir la fuente oficial. Un buen encargo reduce las alucinaciones, pero no las elimina.</p></aside>
       </section>
 
-      <section class="slide" id="s5" data-title="Dónde podría ayudarnos" data-block="01 · Entender y cuidar" data-minutes="3" aria-labelledby="title-5">
+      <section class="slide" id="s6" data-title="Dónde podría ayudarnos" data-block="01 · Entender y cuidar" data-minutes="3" aria-labelledby="title-6">
         <p class="eyebrow">01 / Posibles ventajas</p>
-        <h2 id="title-5">Podría ayudar con <em>borradores.</em><br>Nunca con la responsabilidad.</h2>
+        <h2 id="title-6">Podría ayudar con <em>borradores.</em><br>Nunca con la responsabilidad.</h2>
         <div class="grid two body-fill">
           <div class="card"><h3>Comunicaciones</h3><p class="small">¿Adaptar textos ya aprobados?</p></div>
           <div class="card"><h3>Convocatorias</h3><p class="small">¿Extraer requisitos de bases oficiales?</p></div>
@@ -324,9 +350,9 @@
         <aside class="speaker-notes"><p>Conecta con los ejemplos del inicio. Son hipótesis, no promesas: habría que probarlas para saber si realmente aportan o si revisar el resultado cuesta más que hacerlo directamente. Siempre verificar montos, fechas y cifras en la fuente, y validar talleres según el contexto local. Nunca inventar testimonios ni prometer resultados.</p><p>Para sumar un presupuesto basta una hoja de cálculo con fórmulas comprobadas.</p></aside>
       </section>
 
-      <section class="slide" id="s6" data-title="El semáforo de la información" data-block="01 · Entender y cuidar" data-minutes="3" aria-labelledby="title-6">
+      <section class="slide" id="s7" data-title="El semáforo de la información" data-block="01 · Entender y cuidar" data-minutes="3" aria-labelledby="title-7">
         <p class="eyebrow">01 / Qué proteger</p>
-        <h2 id="title-6">Antes de subir algo:<br><em>¿a quién podría exponer?</em></h2>
+        <h2 id="title-7">Antes de subir algo:<br><em>¿a quién podría exponer?</em></h2>
         <div class="grid three body-fill">
           <div class="card green"><span class="tag">Usar</span><h3 style="margin-top:1cqw">Público o genérico</h3><p class="small">Convocatorias públicas, plantillas vacías.</p></div>
           <div class="card gold"><span class="tag">Consultar</span><h3 style="margin-top:1cqw">Interno</h3><p class="small">Borradores, presupuestos, acuerdos.</p></div>
@@ -336,9 +362,9 @@
         <aside class="speaker-notes"><p>Esta clasificación orienta decisiones cotidianas y no sustituye una política de tratamiento de datos. Lo amarillo requiere autorización y herramienta aprobada.</p><p>Los datos públicos también pueden ser personales y estar protegidos. Ante duda, detenerse y consultar a la persona responsable.</p></aside>
       </section>
 
-      <section class="slide" id="s7" data-title="La receta de un buen encargo" data-block="02 · Pedir y verificar" data-minutes="3" aria-labelledby="title-7">
+      <section class="slide" id="s8" data-title="La receta de un buen encargo" data-block="02 · Pedir y verificar" data-minutes="3" aria-labelledby="title-8">
         <p class="eyebrow">02 / Cómo pedir</p>
-        <h2 id="title-7">No hay palabras mágicas.<br>Hay <em>buen contexto.</em></h2>
+        <h2 id="title-8">No hay palabras mágicas.<br>Hay <em>buen contexto.</em></h2>
         <div class="formula body-fill">
           <div class="card"><span class="number">01</span><h3>Tarea</h3><p>¿Qué necesito?</p></div>
           <div class="card"><span class="number">02</span><h3>Contexto</h3><p>¿Para quién? ¿Con qué material?</p></div>
@@ -350,9 +376,9 @@
         <aside class="speaker-notes"><p>Frase útil: “Si falta información, señálala. Distingue hechos de propuestas. No supongas”.</p><p>“Actúa como experto” orienta el estilo, pero no otorga conocimiento verificado. Ante una respuesta fallida, corrige con precisión: “añadiste una fecha que no está en la minuta; elimínala”.</p></aside>
       </section>
 
-      <section class="slide" id="s8" data-title="De una petición vaga a una útil" data-block="02 · Pedir y verificar" data-minutes="3" aria-labelledby="title-8">
+      <section class="slide" id="s9" data-title="De una petición vaga a una útil" data-block="02 · Pedir y verificar" data-minutes="3" aria-labelledby="title-9">
         <p class="eyebrow">02 / Ejemplo</p>
-        <h2 id="title-8">De “hazme un informe”<br>a <em>un encargo verificable.</em></h2>
+        <h2 id="title-9">De “hazme un informe”<br>a <em>un encargo verificable.</em></h2>
         <div class="grid split body-fill">
           <div class="card rose"><span class="tag">Demasiado abierto</span><p class="quote" style="margin-top:1.2cqw">“Haz un informe de impacto del taller”.</p></div>
           <div class="prompt-box">          <p class="prompt">Con la minuta de reunión adjunta, redacta un borrador para el equipo de coordinación:
@@ -364,9 +390,9 @@ Si falta un dato, escribe “por confirmar”.</p></div>
         <aside class="speaker-notes"><p>El primer encargo no tiene material, público ni definición de “impacto”: invita a inventar. El segundo incorpora tarea, contexto, límites, formato y criterio de revisión.</p><p>No convertir propuestas en compromisos ni interpretar la asistencia como evidencia de impacto.</p></aside>
       </section>
 
-      <section class="slide" id="s9" data-title="Verificar antes de usar" data-block="02 · Pedir y verificar" data-minutes="3" aria-labelledby="title-9">
+      <section class="slide" id="s10" data-title="Verificar antes de usar" data-block="02 · Pedir y verificar" data-minutes="3" aria-labelledby="title-10">
         <p class="eyebrow">02 / Cómo verificar</p>
-        <h2 id="title-9">Un enlace<br><em>no es una verificación.</em></h2>
+        <h2 id="title-10">Un enlace<br><em>no es una verificación.</em></h2>
         <div class="grid two body-fill">
           <ol class="steps"><li><strong>Abre</strong> la fuente original.</li><li><strong>Ubica</strong> el dato exacto.</li><li><strong>Comprueba</strong> fecha y vigencia.</li><li><strong>Contrasta</strong> lo clave.</li></ol>
           <div class="card green"><h3>Regla simple</h3><p class="small">Si no se puede confirmar, se marca <strong>“no verificada”</strong>.</p><p class="small" style="margin-top:1.2cqw">Dos chatbots que coinciden no son dos fuentes.</p></div>
@@ -374,9 +400,9 @@ Si falta un dato, escribe “por confirmar”.</p></div>
         <aside class="speaker-notes"><p>Ejemplo: pide una tabla de convocatorias con entidad, requisitos, fecha de cierre, enlace oficial y respaldo. Evita pedir “dame fuentes que confirmen mi idea”.</p><p>Con bases oficiales autorizadas puedes pedir “responde solo con este documento”. Para una cifra crucial, vuelve a la tabla original y recalcula.</p></aside>
       </section>
 
-      <section class="slide" id="s10" data-title="Nuestra voz e imágenes" data-block="03 · Escribir y organizar" data-minutes="3" aria-labelledby="title-10">
+      <section class="slide" id="s11" data-title="Nuestra voz e imágenes" data-block="03 · Escribir y organizar" data-minutes="3" aria-labelledby="title-11">
         <p class="eyebrow">03 / Nuestra voz</p>
-        <h2 id="title-10">Podría editar e ilustrar.<br>Nunca <em>hablar por las comunidades.</em></h2>
+        <h2 id="title-11">Podría editar e ilustrar.<br>Nunca <em>hablar por las comunidades.</em></h2>
         <div class="grid two body-fill">
           <div class="card green"><ul class="clean"><li>Mejorar claridad sin añadir hechos.</li><li>Ilustraciones genéricas para afiches.</li><li>Borradores de traducción, para validar.</li></ul></div>
           <div class="card rose"><ul class="clean"><li>Testimonios o citas inventadas.</li><li>Imágenes que parezcan fotos reales.</li><li>Símbolos culturales sin validación.</li></ul></div>
@@ -385,9 +411,9 @@ Si falta un dato, escribe “por confirmar”.</p></div>
         <aside class="speaker-notes"><p>Pedido útil: “Mejora claridad sin añadir hechos. Señala expresiones paternalistas”. Para imágenes: “Ilustración plana, colores cálidos, sin personas reconocibles”.</p><p>Los modelos de imagen tienden a reproducir estereotipos sobre pueblos indígenas; cualquier representación Misak, Wayúu u otra debe validarse con las comunidades. En lenguas con menos recursos, las traducciones requieren hablantes competentes.</p></aside>
       </section>
 
-      <section class="slide" id="s11" data-title="Elegir por tarea, no por moda" data-block="03 · Escribir y organizar" data-minutes="2" aria-labelledby="title-11">
+      <section class="slide" id="s12" data-title="Elegir por tarea, no por moda" data-block="03 · Escribir y organizar" data-minutes="2" aria-labelledby="title-12">
         <p class="eyebrow">03 / Herramientas</p>
-        <h2 id="title-11">Elegir por tarea,<br><em>no por moda.</em></h2>
+        <h2 id="title-12">Elegir por tarea,<br><em>no por moda.</em></h2>
         <div class="body-fill">
           <div class="tool-row head"><span>Necesidad</span><span>Opciones</span><span>Qué comprobar</span></div>
           <div class="tool-row"><strong>Borradores</strong><span>ChatGPT · Claude · Gemini</span><span>Datos permitidos.</span></div>
@@ -399,9 +425,9 @@ Si falta un dato, escribe “por confirmar”.</p></div>
         <aside class="speaker-notes"><p>No se comparan precios ni versiones porque cambian rápido. La documentación de NotebookLM redirige a Gemini Notebook.</p></aside>
       </section>
 
-      <section class="slide" id="s12" data-title="Tokens: cómo lee la IA" data-block="03 · Escribir y organizar" data-minutes="3" aria-labelledby="title-12">
+      <section class="slide" id="s13" data-title="Tokens: cómo lee la IA" data-block="03 · Escribir y organizar" data-minutes="3" aria-labelledby="title-13">
         <p class="eyebrow">03 / Tokens</p>
-        <h2 id="title-12">La IA no cuenta palabras.<br>Cuenta <em>tokens.</em></h2>
+        <h2 id="title-13">La IA no cuenta palabras.<br>Cuenta <em>tokens.</em></h2>
         <div class="tokens" aria-label="Ejemplo ilustrativo: la frase Acompañamos comunidades dividida en cinco tokens"><span>Acomp</span><span>añ</span><span>amos</span><span> comun</span><span>idades</span><span class="count">2 palabras ≈ 5 tokens</span></div>
         <div class="grid three">
           <div class="card"><h3>Contexto</h3><p class="small">Si se llena, olvida el inicio.</p></div>
@@ -412,9 +438,9 @@ Si falta un dato, escribe “por confirmar”.</p></div>
         <aside class="speaker-notes"><p>Un token es un fragmento de texto. La división es ilustrativa: cada modelo corta a su manera. En español, una palabra ≈ 1,3–2 tokens. Imágenes y archivos también consumen tokens.</p><p>Más consejos: usar el modelo rápido para lo simple y guardar instrucciones en un proyecto o asistente en lugar de repetirlas.</p></aside>
       </section>
 
-      <section class="slide" id="s13" data-title="Planes y suscripciones" data-block="03 · Escribir y organizar" data-minutes="2" aria-labelledby="title-13">
+      <section class="slide" id="s14" data-title="Planes y suscripciones" data-block="03 · Escribir y organizar" data-minutes="2" aria-labelledby="title-14">
         <p class="eyebrow">03 / Planes</p>
-        <h2 id="title-13">El plan depende<br><em>de los datos que usas.</em></h2>
+        <h2 id="title-14">El plan depende<br><em>de los datos que usas.</em></h2>
         <div class="body-fill">
           <div class="tool-row head"><span>Plan</span><span>Para qué</span><span>Ojo con</span></div>
           <div class="tool-row"><strong>Gratis</strong><span>Probar con información pública.</span><span>Puede entrenar con tus datos.</span></div>
@@ -425,9 +451,9 @@ Si falta un dato, escribe “por confirmar”.</p></div>
         <aside class="speaker-notes"><p>Referencias a noviembre de 2026 (verificar en Colombia): Google Workspace for Nonprofits incluye Gemini y NotebookLM sin costo; ChatGPT Business para ONG ≈ US$8 por usuario/mes; Claude Team con precio similar; Canva Pro gratis para ONG; Microsoft incluye Copilot Chat en sus donaciones.</p><p>Antes de pagar, decidir si de verdad la necesitamos y definir tareas y datos. Pagar no cambia el semáforo.</p></aside>
       </section>
 
-      <section class="slide" id="s14" data-title="Chat, proyecto y asistente" data-block="03 · Escribir y organizar" data-minutes="3" aria-labelledby="title-14">
+      <section class="slide" id="s15" data-title="Chat, proyecto y asistente" data-block="03 · Escribir y organizar" data-minutes="3" aria-labelledby="title-15">
         <p class="eyebrow">03 / Organizar el trabajo</p>
-        <h2 id="title-14">De empezar de cero<br>a <em>reutilizar con criterio.</em></h2>
+        <h2 id="title-15">De empezar de cero<br>a <em>reutilizar con criterio.</em></h2>
         <div class="flow">
           <div class="card"><h3>Chat</h3><p>Tarea puntual.</p></div>
           <span class="arrow" aria-hidden="true">→</span>
@@ -440,9 +466,9 @@ Si falta un dato, escribe “por confirmar”.</p></div>
         <aside class="speaker-notes"><p>Proyecto organiza el contexto de una iniciativa; asistente reutiliza un comportamiento. Ninguno tiene memoria perfecta ni aprende solo. Antes de compartir, verificar quién verá chats, archivos e instrucciones.</p><p>Si falla una prueba, corrige las instrucciones y repite en un chat nuevo. Todo asistente debe tener responsable, fecha y versión.</p></aside>
       </section>
 
-      <section class="slide" id="s15" data-title="Conectores y agentes" data-block="04 · Ampliar con cuidado" data-minutes="5" aria-labelledby="title-15">
+      <section class="slide" id="s16" data-title="Conectores y agentes" data-block="04 · Ampliar con cuidado" data-minutes="5" aria-labelledby="title-16">
         <p class="eyebrow">04 / Conectar y actuar</p>
-        <h2 id="title-15">Más capacidad,<br><em>más permisos y más riesgo.</em></h2>
+        <h2 id="title-16">Más capacidad,<br><em>más permisos y más riesgo.</em></h2>
         <div class="grid three body-fill">
           <div class="card"><span class="tag">Skill</span><h3 style="margin-top:1cqw">Repite un proceso</h3><p class="small">Ej.: aplicar una plantilla de informe.</p></div>
           <div class="card gold"><span class="tag">Conector · MCP</span><h3 style="margin-top:1cqw">Usa otras apps</h3><p class="small">Ej.: crear una invitación en Canva.</p></div>
@@ -453,9 +479,9 @@ Si falta un dato, escribe “por confirmar”.</p></div>
         <aside class="speaker-notes"><p>MCP (Model Context Protocol) es un estándar abierto para conectar asistentes con otras aplicaciones. Canva ofrece un servidor MCP oficial: la IA busca la plantilla, crea el diseño y devuelve el enlace; la persona revisa antes de publicar. Un conector hereda los permisos de tu cuenta.</p><p>Agentes: modo agente de ChatGPT, Claude en Chrome, funciones similares en Copilot y Gemini. Usar un perfil separado sin datos sensibles. Buen primer uso: tareas de solo lectura, como reunir convocatorias públicas en una tabla.</p><p>No todo requiere IA: para una regla fija basta una automatización simple.</p></aside>
       </section>
 
-      <section class="slide" id="s16" data-title="Un flujo con revisión humana" data-block="04 · Ampliar con cuidado" data-minutes="3" aria-labelledby="title-16">
+      <section class="slide" id="s17" data-title="Un flujo con revisión humana" data-block="04 · Ampliar con cuidado" data-minutes="3" aria-labelledby="title-17">
         <p class="eyebrow">04 / El flujo</p>
-        <h2 id="title-16">Si la usáramos:<br><em>siempre con revisión humana.</em></h2>
+        <h2 id="title-17">Si la usáramos:<br><em>siempre con revisión humana.</em></h2>
         <div class="flow">
           <div class="card"><span class="tag">Persona</span><h3 style="margin-top:1cqw">Preparar</h3><p>Material permitido.</p></div>
           <span class="arrow" aria-hidden="true">→</span>
@@ -469,9 +495,9 @@ Si falta un dato, escribe “por confirmar”.</p></div>
         <aside class="speaker-notes"><p>Registrar fuente, plantilla, cambios clave y revisor. Quien revisa una cifra y quien aprueba el tono pueden ser personas distintas. Si un texto representa a una comunidad, seguir el proceso de validación acordado con ella.</p><p>No conservar copias innecesarias de información sensible.</p></aside>
       </section>
 
-      <section class="slide" id="s17" data-title="La privacidad no es un interruptor" data-block="04 · Ampliar con cuidado" data-minutes="3" aria-labelledby="title-17">
+      <section class="slide" id="s18" data-title="La privacidad no es un interruptor" data-block="04 · Ampliar con cuidado" data-minutes="3" aria-labelledby="title-18">
         <p class="eyebrow">04 / Privacidad</p>
-        <h2 id="title-17">“No entrenar con mis datos”<br>no significa <em>“no guardar nada”.</em></h2>
+        <h2 id="title-18">“No entrenar con mis datos”<br>no significa <em>“no guardar nada”.</em></h2>
         <div class="grid two body-fill">
           <div class="card"><h3>Antes de usar una cuenta</h3><ul class="checklist small"><li>Herramienta y plan autorizados.</li><li>Quién ve chats y archivos.</li><li>Memoria y conectores activos.</li></ul></div>
           <div class="card rose"><h3>Si se subió algo por error</h3><ol class="small"><li>Detener y no compartir.</li><li>Avisar al responsable.</li><li>Restringir y eliminar.</li></ol></div>
@@ -479,9 +505,9 @@ Si falta un dato, escribe “por confirmar”.</p></div>
         <aside class="speaker-notes"><p>Historial, memoria, entrenamiento y retención son controles distintos. En ChatGPT, desactivar el uso para mejorar modelos no elimina los chats. No extrapolar garantías de un plan empresarial a una cuenta personal.</p><p>La fundación debe designar a quién reportar incidentes y definir herramientas, datos y permisos.</p></aside>
       </section>
 
-      <section class="slide dark" id="s18" data-title="La tarjeta para llevar" data-block="04 · Ampliar con cuidado" data-minutes="2" aria-labelledby="title-18">
+      <section class="slide dark" id="s19" data-title="La tarjeta para llevar" data-block="04 · Ampliar con cuidado" data-minutes="2" aria-labelledby="title-19">
         <p class="eyebrow">Para llevar</p>
-        <h2 id="title-18">Cinco preguntas<br>si decidimos <em>usar la IA.</em></h2>
+        <h2 id="title-19">Cinco preguntas<br>si decidimos <em>usar la IA.</em></h2>
         <div class="grid two body-fill">
           <div><span class="number">Al pedir</span><ul class="checklist"><li>¿La IA aporta algo real en esta tarea?</li><li>¿Puedo usar estos datos aquí?</li><li>¿Di contexto, límites y formato?</li></ul></div>
           <div><span class="number">Al compartir</span><ul class="checklist"><li>¿Cada hecho tiene respaldo?</li><li>¿Una persona revisó y aprobó?</li></ul></div>
@@ -490,17 +516,17 @@ Si falta un dato, escribe “por confirmar”.</p></div>
         <aside class="speaker-notes"><p>Invita a tomar una foto de esta tarjeta o guardar el PDF como referencia rápida.</p></aside>
       </section>
 
-      <section class="slide dark" id="s19" data-title="Decidir juntos, con criterio" data-block="Cierre y preguntas" data-minutes="5" aria-labelledby="title-19">
+      <section class="slide dark" id="s20" data-title="Decidir juntos, con criterio" data-block="Cierre y preguntas" data-minutes="5" aria-labelledby="title-20">
         <p class="eyebrow">Cierre</p>
-        <h2 id="title-19" class="end-word">Decidir juntos.<br><em>Con criterio.</em></h2>
+        <h2 id="title-20" class="end-word">Decidir juntos.<br><em>Con criterio.</em></h2>
         <p class="lead body-fill">La IA podría preparar parte del trabajo.<br>La confianza se construye entre personas.</p>
         <div class="callout"><strong>Para conversar:</strong> ¿en qué tarea vemos una ventaja real? ¿Qué nos preocupa?</div>
         <aside class="speaker-notes"><p>Retoma las tareas mencionadas al inicio. Recoge ventajas y preocupaciones del grupo como insumo para decidir si Wájaro usa la IA y cómo; no hace falta llegar hoy a una conclusión. La siguiente diapositiva es material de consulta y no suma tiempo.</p></aside>
       </section>
 
-      <section class="slide" id="s20" data-title="Fuentes" data-block="Anexo · Consulta" data-minutes="0" aria-labelledby="title-20">
+      <section class="slide" id="s21" data-title="Fuentes" data-block="Anexo · Consulta" data-minutes="0" aria-labelledby="title-21">
         <p class="eyebrow">Anexo · Consulta: 20 de noviembre de 2026</p>
-        <h2 id="title-20">Fuentes.</h2>
+        <h2 id="title-21">Fuentes.</h2>
         <div class="grid two body-fill">
           <div class="source-list">
             <div><a href="https://espanol.wajaro.org/" target="_blank" rel="noopener noreferrer">[1] Wájaro · Misión y visión</a></div>
@@ -526,7 +552,7 @@ Si falta un dato, escribe “por confirmar”.</p></div>
     <div class="footer-info"><strong id="block-label">Apertura</strong><br><span id="timing-label">1 min · minuto 0–1 de 55</span></div>
     <nav class="footer-nav" aria-label="Navegación de diapositivas">
       <button type="button" class="nav-button" id="prev" aria-label="Diapositiva anterior">←</button>
-      <span id="slide-count">01 / 20</span>
+      <span id="slide-count">01 / 21</span>
       <button type="button" class="nav-button" id="next" aria-label="Diapositiva siguiente">→</button>
     </nav>
   </footer>
@@ -535,7 +561,7 @@ Si falta un dato, escribe “por confirmar”.</p></div>
     <p class="note-warning">Estas notas son visibles para quienes estén viendo esta pantalla.</p>
     <div id="notes-content"></div>
   </aside>
-  <div class="progress" role="progressbar" aria-label="Avance de la presentación" aria-valuemin="1" aria-valuemax="20" aria-valuenow="1"><div id="progress-fill"></div></div>
+  <div class="progress" role="progressbar" aria-label="Avance de la presentación" aria-valuemin="1" aria-valuemax="21" aria-valuenow="1"><div id="progress-fill"></div></div>
   <div class="sr-only" id="announcement" aria-live="polite" aria-atomic="true"></div>
   <div id="toast" role="status" aria-live="polite" hidden></div>
   <dialog id="index-dialog" aria-labelledby="index-title">
@@ -584,6 +610,7 @@ Si falta un dato, escribe “por confirmar”.</p></div>
         slides.forEach((slide, number) => { slide.hidden = number !== current; });
         if (focusedInSlide) byId("deck").focus({ preventScroll: true });
         const slide = slides[current];
+        document.documentElement.dataset.slideTone = slide.classList.contains("dark") ? "dark" : slide.classList.contains("rust") ? "rust" : "paper";
         const duration = Number(slide.dataset.minutes);
         const start = slides.slice(0, current).reduce((sum, item) => sum + Number(item.dataset.minutes), 0);
         byId("slide-count").textContent = `${String(current + 1).padStart(2, "0")} / ${slides.length}`;
@@ -634,11 +661,29 @@ Si falta un dato, escribe “por confirmar”.</p></div>
         if (!notesPanel.hidden) notesPanel.scrollIntoView({ block: "nearest" });
       }
 
+      function isFullscreen() {
+        return Boolean(document.fullscreenElement || document.webkitFullscreenElement);
+      }
+
+      function syncFullscreenState() {
+        const active = isFullscreen();
+        document.documentElement.classList.toggle("is-fullscreen", active);
+        byId("fullscreen-button").textContent = active ? "Salir de pantalla completa" : "Pantalla completa";
+        if (active) byId("deck").focus({ preventScroll: true });
+      }
+
       async function toggleFullscreen() {
         try {
-          if (document.fullscreenElement) await document.exitFullscreen();
-          else if (document.documentElement.requestFullscreen) await document.documentElement.requestFullscreen();
-          else notify("Este navegador no permite pantalla completa aquí. Usa la opción de pantalla completa del navegador.");
+          if (isFullscreen()) {
+            if (document.exitFullscreen) await document.exitFullscreen();
+            else if (document.webkitExitFullscreen) await document.webkitExitFullscreen();
+          } else if (document.documentElement.requestFullscreen) {
+            await document.documentElement.requestFullscreen({ navigationUI: "hide" });
+          } else if (document.documentElement.webkitRequestFullscreen) {
+            await document.documentElement.webkitRequestFullscreen();
+          } else {
+            notify("Este navegador no permite pantalla completa aquí. Usa la opción de pantalla completa del navegador.");
+          }
         } catch (error) {
           console.error("No se pudo cambiar a pantalla completa:", error);
           notify("El navegador bloqueó la pantalla completa. Puedes usar su menú o F11.");
@@ -655,9 +700,8 @@ Si falta un dato, escribe “por confirmar”.</p></div>
       document.querySelectorAll("[data-close]").forEach((button) => {
         button.addEventListener("click", () => byId(button.dataset.close).close());
       });
-      document.addEventListener("fullscreenchange", () => {
-        byId("fullscreen-button").textContent = document.fullscreenElement ? "Salir de pantalla completa" : "Pantalla completa";
-      });
+      document.addEventListener("fullscreenchange", syncFullscreenState);
+      document.addEventListener("webkitfullscreenchange", syncFullscreenState);
       window.addEventListener("hashchange", fromHash);
       document.addEventListener("keydown", (event) => {
         if (event.altKey || event.ctrlKey || event.metaKey || event.target.closest("input, textarea, select, [contenteditable]")) return;
